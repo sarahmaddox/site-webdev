@@ -6,7 +6,7 @@ dev-url: https://webdev-dartlang-org-dev.firebaseapp.com
 prev-url: https://webdev-angular3-dartlang-org.firebaseapp.com
 permalink: /:categories/:title
 repo: https://github.com/dart-lang/site-webdev
-branch: master
+branch: 5-dev
 
 # Global variables
 # use case:
@@ -64,6 +64,10 @@ defaults:
     path: angular
   values:
     diff2html: true
+- scope:
+    path: angular/guide/router
+  values:
+    status: '(Router 1.0.2)'
 - scope:
     path: angular/guide/testing
   values:
