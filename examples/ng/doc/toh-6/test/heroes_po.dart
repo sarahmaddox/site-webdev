@@ -38,14 +38,14 @@ class HeroesPO {
   Future<String> get title => _title.visibleText;
 
   Iterable<Future<Map>> get heroes =>
-      _heroes.map((el) async => _heroDataFromLi(await el.visibleText));
+      _heroes.map((el) => _heroDataFromLi(el));
 
   Future selectHero(int index) => _heroes[index].click();
   Future deleteHero(int index) => _deleteHeroes[index].click();
 
-  Future<Map> get selectedHero async => _selectedHero == null
+  Future<Map> get selectedHero => _selectedHero == null
       ? null
-      : _heroDataFromLi(await _selectedHero.visibleText);
+      : _heroDataFromLi(_selectedHero);
 
   Future<String> get myHeroNameInUppercase async {
     if (_miniDetailHeading == null) return null;
@@ -64,8 +64,8 @@ class HeroesPO {
 
   Future<Null> gotoDetail() async => _gotoDetail.click();
 
-  Map<String, dynamic> _heroDataFromLi(String liText) {
-    final matches = new RegExp((r'^(\d+) (.*) x$')).firstMatch(liText);
-    return heroData(matches[1], matches[2]);
+  Future<Map<String, dynamic>> _heroDataFromLi(PageLoaderElement heroLi) async {
+    final spans = await heroLi.getElementsByCss('span').toList();
+    return heroData(await spans[0].visibleText, await spans[1].visibleText);
   }
 }

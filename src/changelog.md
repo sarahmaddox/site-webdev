@@ -27,6 +27,17 @@ but you can see a preview at
 </aside>
 {% endcomment %}
 
+## Angular Router 2.0.0 (October 2017)
+
+- Updates to `pubspec.yaml`:
+  - `angular_router`: `^1.0.0` &rarr; `^2.0.0-alpha`
+- Dart file changes:
+  - `ROUTER_DIRECTIVES` &rarr; `routerDirectives`
+  - `ROUTER_PROVIDERS` &rarr; `routerProviders`,
+    and provide through [bootstrap][] (recommended)
+
+[bootstrap]: /api/angular/angular/bootstrap
+
 ## Forms (October 2017)
 
 Updated the [forms][] page and its example app to use custom CSS classes instead of the

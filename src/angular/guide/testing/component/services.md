@@ -55,8 +55,8 @@ fixture. For example:
 <?code-excerpt "toh-5/test/heroes.dart (providers)"?>
 ```
   final testBed = new NgTestBed<HeroesComponent>().addProviders([
-    provide(Router, useValue: mockRouter),
     HeroService,
+    provide(Router, useValue: mockRouter),
   ]);
 ```
 
@@ -76,8 +76,8 @@ mock `Router`:
   @AngularEntrypoint()
   void main() {
     final testBed = new NgTestBed<HeroesComponent>().addProviders([
-      provide(Router, useValue: mockRouter),
       HeroService,
+      provide(Router, useValue: mockRouter),
     ]);
 
     setUp(() async {

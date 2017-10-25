@@ -104,11 +104,11 @@ dependencies:
  version: 0.0.1
 
  environment:
-@@ -8,22 +7,13 @@
+@@ -8,25 +7,16 @@
 
  dependencies:
-   angular: ^4.0.0
-+  angular_forms: ^1.0.0
+   angular: ^5.0.0-alpha+1
++  angular_forms: ^1.0.1-alpha+1
 ```
 
 <?code-excerpt path-base="examples/ng/doc/forms"?>

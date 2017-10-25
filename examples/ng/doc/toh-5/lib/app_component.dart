@@ -5,12 +5,8 @@ import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
 // #enddocregion router-import
 
-import 'src/dashboard_component.dart';
-// #docregion hero-detail-import
-import 'src/hero_detail_component.dart';
-// #enddocregion hero-detail-import
+import 'src/app_routes.dart';
 import 'src/hero_service.dart';
-import 'src/heroes_component.dart';
 
 @Component(
   selector: 'my-app',
@@ -18,44 +14,23 @@ import 'src/heroes_component.dart';
   template: '''
     <h1>{{title}}</h1>
     <nav>
-      <a [routerLink]="['Dashboard']">Dashboard</a>
-      <a [routerLink]="['Heroes']">Heroes</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
     </nav>
-    <router-outlet></router-outlet>
+    <router-outlet [routes]="routes.all"></router-outlet>
   ''',
   // #enddocregion template
   // #docregion styleUrls
   styleUrls: const ['app_component.css'],
   // #enddocregion styleUrls
   // #docregion directives
-  directives: const [ROUTER_DIRECTIVES],
+  directives: const [routerDirectives],
   // #enddocregion directives
-  providers: const [HeroService],
+  providers: const [AppRoutes, HeroService],
 )
-// #docregion Heroes-route, routes
-@RouteConfig(const [
-  // #enddocregion Heroes-route
-  // #docregion Redirect-route
-  const Redirect(path: '/', redirectTo: const ['Dashboard']),
-  // #enddocregion Redirect-route
-  // #docregion Dashboard-route
-  const Route(
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: DashboardComponent,
-  ),
-  // #enddocregion Dashboard-route
-  // #docregion HeroDetail-route
-  const Route(
-    path: '/detail/:id',
-    name: 'HeroDetail',
-    component: HeroDetailComponent,
-  ),
-  // #enddocregion HeroDetail-route
-  // #docregion Heroes-route
-  const Route(path: '/heroes', name: 'Heroes', component: HeroesComponent)
-])
-// #enddocregion Heroes-route, routes
 class AppComponent {
   final title = 'Tour of Heroes';
+  final AppRoutes routes;
+
+  AppComponent(this.routes);
 }

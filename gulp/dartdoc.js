@@ -80,6 +80,10 @@ module.exports = function (gulp, plugins, config) {
       const pubspecFile = `${tmpPubPkgPath}/pubspec.yaml`;
       // pub hangs on the following dependency: "args: '>=x.y.z <2.0.0'". Patch the pubspec:
       plugins.execSyncAndLog(`perl -i -pe "s/^(\\s+args):\\s*'>=\\s*([\\d\\.]+)\\s+<2.0.0'/\\1: ^\\2/gm" ${pubspecFile}`);
+      // As of angular 5.0.0-alpha+1, an analyzer dependency overrides is necessary
+      const dep_ovr = '\ndependency_overrides:\n  analyzer: ^0.31.0-alpha.1\n';
+      plugins.gutil.log(`\nWARNING: appending to ${pubspecFile}: ${dep_ovr}\n`);
+      fs.appendFileSync(pubspecFile, dep_ovr);
     }
     return tmpPubPkgPath;
   }

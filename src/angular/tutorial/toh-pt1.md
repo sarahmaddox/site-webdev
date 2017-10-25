@@ -182,11 +182,11 @@ The `angular_forms` library comes in its own package. Add the package to the pub
  name: angular_tour_of_heroes
  description: Tour of Heroes
  version: 0.0.1
-@@ -8,16 +7,14 @@
+@@ -8,19 +7,17 @@
 
  dependencies:
-   angular: ^4.0.0
-+  angular_forms: ^1.0.0
+   angular: ^5.0.0-alpha+1
++  angular_forms: ^1.0.1-alpha+1
 ```
 
 <?code-excerpt path-base="examples/ng/doc/toh-1"?>

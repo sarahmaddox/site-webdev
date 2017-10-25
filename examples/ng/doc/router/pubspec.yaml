@@ -4,20 +4,23 @@ description: Router Example
 version: 0.0.1
 
 environment:
-  sdk: '>=1.24.0 <2.0.0'
+  sdk: '>=2.0.0-dev.3.0 <2.0.0'
 
 # #docregion dependencies, dependencies-wo-forms
 dependencies:
-  angular: ^4.0.0
+  angular: ^5.0.0-alpha+1
   # #enddocregion dependencies-wo-forms
-  angular_forms: ^1.0.0
+  angular_forms: ^1.0.1-alpha+1
   # #docregion dependencies-wo-forms
-  angular_router: ^1.0.2
+  angular_router: ^2.0.0-alpha+1
 # #enddocregion dependencies, dependencies-wo-forms
 
 dev_dependencies:
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
+
+dependency_overrides:
+  analyzer: ^0.31.0-alpha.1
 
 transformers:
 - angular:

@@ -395,9 +395,7 @@ you a taste of more advanced concepts that will be presented later in this page.
 
   void main() {
     bootstrap(AppComponent, [
-      ROUTER_PROVIDERS,
-      // Remove next line in production
-      provide(LocationStrategy, useClass: HashLocationStrategy),
+      routerProvidersHash // You can use routerProviders in production
     ]);
   }
 ```

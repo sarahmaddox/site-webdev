@@ -49,8 +49,8 @@ you must add the mock router to the providers list of the `NgTestBed`:
   @AngularEntrypoint()
   void main() {
     final testBed = new NgTestBed<HeroesComponent>().addProviders([
-      provide(Router, useValue: mockRouter),
       HeroService,
+      provide(Router, useValue: mockRouter),
     ]);
 
     setUp(() async {
@@ -74,10 +74,8 @@ The button's click event is bound to the `gotoDetail()` method which is defined 
 
 <?code-excerpt "toh-5/lib/src/heroes_component.dart (gotoDetail)" title?>
 ```
-  Future<Null> gotoDetail() => _router.navigate([
-        'HeroDetail',
-        {'id': selectedHero.id.toString()}
-      ]);
+  Future<NavigationResult> gotoDetail() =>
+      _router.navigate('/detail/${selectedHero.id}');
 ```
 
 You could test for this behavior by ensuring that the mock router receives
@@ -108,7 +106,7 @@ navigation to hero details using router links:
 
 <?code-excerpt "toh-5/lib/src/dashboard_component.html (excerpt)" region="click" title?>
 ```
-  <a *ngFor="let hero of heroes" [routerLink]="['HeroDetail', {id: hero.id.toString()}]" class="col-1-4">
+  <a *ngFor="let hero of heroes" routerLink="/detail/{!{hero.id}!}" class="col-1-4">
     <div class="module hero">
       <h4>{!{hero.name}!}</h4>
     </div>
@@ -132,20 +130,18 @@ the real router expects the injector to supply values for:
   NgTestFixture<DashboardComponent> fixture;
   DashboardPO po;
 
-  final mockPlatformLocation = new MockPlatformLocation();
+  final mockRouter = new MockRouter();
 
-  class MockPlatformLocation extends Mock implements PlatformLocation {}
+  class MockRouter extends Mock implements Router {}
 
   @AngularEntrypoint()
   void main() {
-    final providers = new List.from(ROUTER_PROVIDERS)
-      ..addAll([
-        provide(APP_BASE_HREF, useValue: '/'),
-        provide(PlatformLocation, useValue: mockPlatformLocation),
-        provide(ROUTER_PRIMARY_COMPONENT, useValue: AppComponent),
-        HeroService,
-      ]);
-    final testBed = new NgTestBed<DashboardComponent>().addProviders(providers);
+    final testBed = new NgTestBed<DashboardComponent>().addProviders([
+      provide(APP_BASE_HREF, useValue: '/'),
+      HeroService,
+      routerProviders,
+      provide(Router, useValue: mockRouter),
+    ]);
     // ···
   }
 ```
@@ -157,12 +153,7 @@ these are initialized to the empty string using
 
 <?code-excerpt "toh-5/test/dashboard.dart (setUpAll)" title?>
 ```
-  setUpAll(() async {
-    when(mockPlatformLocation.pathname).thenReturn('');
-    when(mockPlatformLocation.search).thenReturn('');
-    when(mockPlatformLocation.hash).thenReturn('');
-    when(mockPlatformLocation.getBaseHrefFromDOM()).thenReturn('');
-  });
+  // FIXME(docs): we don't need setUpAll() anymore
 ```
 
 Using this setup, the go-to-detail test illustrated in the previous section, could be written
@@ -171,10 +162,12 @@ for the dashboard component as follows:
 <?code-excerpt "toh-5/test/dashboard.dart (go to detail)" title?>
 ```
   test('select hero and navigate to detail', () async {
-    clearInteractions(mockPlatformLocation);
+    clearInteractions(mockRouter);
     await po.selectHero(3);
-    final c = verify(mockPlatformLocation.pushState(any, any, captureAny));
-    expect(c.captured.single, '/detail/15');
+    var c = verify(mockRouter.navigate(captureAny, captureAny));
+    expect(c.captured[0], '/detail/15');
+    expect(c.captured[1], new IsNavParams());
+    expect(c.captured.length, 2);
   });
 ```
 

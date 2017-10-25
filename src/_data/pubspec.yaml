@@ -5,11 +5,14 @@ description: >
 version: 0.0.1
 
 environment:
-  sdk: '>=1.24.0 <2.0.0'
+  sdk: '>=2.0.0-dev.3.0 <2.0.0'
 
 dependencies:
-  angular: ^4.0.0
-  angular_components: ^0.8.0
-  angular_forms: ^1.0.0
-  angular_router: ^1.0.2
-  angular_test: ^1.0.1
+  angular: ^5.0.0-alpha+1
+  angular_components: ^0.9.0-alpha+1
+  angular_forms: ^1.0.1-alpha+1
+  angular_router: ^2.0.0-alpha+1
+  angular_test: ^1.0.2-alpha+1
+
+dependency_overrides:
+  analyzer: ^0.31.0-alpha.1

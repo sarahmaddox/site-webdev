@@ -2,26 +2,36 @@
 // #docregion
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
-// #docregion
 
+// #docregion routes-and-template
+import 'src/app_routes.dart';
+// #enddocregion routes-and-template
 import 'src/hero_service.dart';
-import 'src/heroes_component.dart';
+// #docregion routes-and-template
 
 @Component(
+  // #enddocregion routes-and-template
   selector: 'my-app',
-  // #docregion template
+  // #docregion template, routes-and-template
   template: '''
+    // #enddocregion routes-and-template
     <h1>{{title}}</h1>
-    <a [routerLink]="['Heroes']">Heroes</a>
-    <router-outlet></router-outlet>
+    <a routerLink="/heroes">Heroes</a>
+    // #enddocregion template,
+    // #docregion routes-and-template
+    <!-- ... -->
+    // #docregion template,
+    <router-outlet [routes]="routes.all"></router-outlet>
   ''',
-  // #enddocregion template
-  directives: const [ROUTER_DIRECTIVES],
-  providers: const [HeroService],
+  // #enddocregion template, routes-and-template
+  directives: const [routerDirectives],
+  // #docregion routes-and-template
+  providers: const [AppRoutes, HeroService],
 )
-@RouteConfig(const [
-  const Route(path: '/heroes', name: 'Heroes', component: HeroesComponent)
-])
+// #docregion routes-and-template
 class AppComponent {
   final title = 'Tour of Heroes';
+  final AppRoutes routes;
+
+  AppComponent(this.routes);
 }

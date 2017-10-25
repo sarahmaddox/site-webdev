@@ -30,6 +30,7 @@ Before continuing with the Tour of Heroes, verify that you have the following st
   - lib
     - app_component.{css,dart}
     - src
+      - app_routes.dart
       - dashboard_component.{css,dart,html}
       - hero.dart
       - hero_detail_component.{css,dart,html}
@@ -60,22 +61,18 @@ Update package dependencies by adding the Dart [http][] and
 
 <?code-excerpt path-base="examples/ng/doc"?>
 
-<?code-excerpt "toh-5/pubspec.yaml" diff-with="toh-6/pubspec.yaml" from="dependencies" to="stream_transform"?>
+<?code-excerpt "toh-5/pubspec.yaml" diff-with="toh-6/pubspec.yaml" to="stream_transform"?>
 ```diff
 --- toh-5/pubspec.yaml
 +++ toh-6/pubspec.yaml
-@@ -1,14 +1,20 @@
+@@ -1,3 +1,4 @@
  name: angular_tour_of_heroes
  description: Tour of Heroes
  version: 0.0.1
-
- environment:
-   sdk: '>=1.24.0 <2.0.0'
-
- dependencies:
-   angular: ^4.0.0
-   angular_forms: ^1.0.0
-   angular_router: ^1.0.2
+@@ -9,6 +10,8 @@
+   angular: ^5.0.0-alpha+1
+   angular_forms: ^1.0.1-alpha+1
+   angular_router: ^2.0.0-alpha+1
 +  http: ^0.11.0
 +  stream_transform: ^0.0.6
 ```
@@ -99,9 +96,7 @@ launch the app and its root `AppComponent`.
 
   void main() {
     bootstrap(AppComponent, [
-      ROUTER_PROVIDERS,
-      // Remove next line in production
-      provide(LocationStrategy, useClass: HashLocationStrategy),
+      routerProvidersHash, // You can use routerProviders in production
       provide(BrowserClient, useFactory: () => new BrowserClient(), deps: [])
     ]);
   }
@@ -132,9 +127,7 @@ Update `web/main.dart` with this version, which uses the mock service:
 
   void main() {
     bootstrap(AppComponent, [
-      ROUTER_PROVIDERS,
-      // Remove next line in production
-      provide(LocationStrategy, useClass: HashLocationStrategy),
+      routerProvidersHash, // You can use routerProviders in production
       provide(Client, useClass: InMemoryDataService),
       // Using a real back end?
       // Import browser_client.dart and change the above to:
@@ -742,13 +735,7 @@ Create the `HeroSearchComponent` class and metadata.
       });
     }
 
-    void gotoDetail(Hero hero) {
-      var link = [
-        'HeroDetail',
-        {'id': hero.id.toString()}
-      ];
-      _router.navigate(link);
-    }
+    Future gotoDetail(Hero hero) => _router.navigate('/detail/${hero.id}');
   }
 ```
 
@@ -818,7 +805,7 @@ Add the hero search HTML element to the bottom of the `DashboardComponent` templ
 ```
   <h3>Top Heroes</h3>
   <div class="grid grid-pad">
-    <a *ngFor="let hero of heroes"  [routerLink]="['HeroDetail', {id: hero.id.toString()}]"  class="col-1-4">
+    <a *ngFor="let hero of heroes" routerLink="/detail/{!{hero.id}!}" class="col-1-4">
       <div class="module hero">
         <h4>{!{hero.name}!}</h4>
       </div>
@@ -837,7 +824,7 @@ Finally, import `HeroSearchComponent` from `hero_search_component.dart` and add 
     selector: 'my-dashboard',
     templateUrl: 'dashboard_component.html',
     styleUrls: const ['dashboard_component.css'],
-    directives: const [CORE_DIRECTIVES, HeroSearchComponent, ROUTER_DIRECTIVES],
+    directives: const [CORE_DIRECTIVES, HeroSearchComponent, routerDirectives],
   )
 ```
 

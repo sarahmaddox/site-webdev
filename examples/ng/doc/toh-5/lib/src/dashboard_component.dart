@@ -18,7 +18,7 @@ import 'hero_service.dart';
   // #enddocregion metadata-wo-styles
   styleUrls: const ['dashboard_component.css'],
   // #docregion metadata-wo-styles
-  directives: const [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
+  directives: const [CORE_DIRECTIVES, routerDirectives],
 )
 // #enddocregion metadata, metadata-wo-styles
 // #docregion class

@@ -17,19 +17,19 @@ env:
     - CHROME_BIN=chromium-browser
     - JEKYLL_ENV=production
     # E2E and TEST: use --skip=t1|t2|...|tx to skip tests
-    # https://github.com/dart-lang/angular/issues/612
-    - E2E_OPT1="--fast --filter=examples/ng/doc/[a-s] --skip=dependency-injection"
+    - E2E_OPT1="--fast --filter=examples/ng/doc/[a-s] --skip=router"
     - E2E_OPT2="--fast --filter=examples/ng/doc/[t-z]"
-    - TEST_OPT=""
+    - TEST_OPT="--skip=github_issues|router"
     - TZ=US/Pacific # normalize build timestamp
   matrix:
     - CI_TASK="build --dartdoc"
-    - CI_TASK="ng-pkg-pub-upgrade" # fails when new ng pkg vers is available
+    # fails when new ng pkg vers is available
+    - CI_TASK="ng-pkg-pub-upgrade --skip=angular_ast"
     - CI_TASK="test $TEST_OPT"
     - CI_TASK="e2e $E2E_OPT1"
     - CI_TASK="e2e $E2E_OPT2"
-    #- CI_TASK="e2e $E2E_OPT1" WEB_COMPILER=dartdevc
-    #- CI_TASK="e2e $E2E_OPT2" WEB_COMPILER=dartdevc
+    - CI_TASK="e2e $E2E_OPT1" WEB_COMPILER=dartdevc
+    - CI_TASK="e2e $E2E_OPT2" WEB_COMPILER=dartdevc
 
 matrix:
   fast_finish: true

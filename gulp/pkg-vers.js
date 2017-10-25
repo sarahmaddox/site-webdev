@@ -46,6 +46,7 @@ module.exports = function (gulp, plugins, config) {
     updatesAvailable.forEach(u => {
       const m = u.match(/^..(angular\w*) (\S+) \((\S+) available\)$/);
       if (!m[2].match(/alpha|beta/) && m[3].match(/alpha|beta/)) return true;
+      if (u.match(skipRegEx)) return true;
       updatesAvailableToReport.push(u);
     })
     if (updatesAvailableToReport.length) {
