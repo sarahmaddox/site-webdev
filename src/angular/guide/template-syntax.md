@@ -123,10 +123,12 @@ Angular evaluates all expressions in double curly braces,
 converts the expression results to strings, and links them with neighboring literal strings. Finally,
 it assigns this composite interpolated result to an **element or directive property**.
 
-You appear to be inserting the result between element tags and assigning it to attributes.
-It's convenient to think so, and you rarely suffer for this mistake.
-However, it's not exactly true. Interpolation is a special syntax that Angular converts into a
-[property binding](#property-binding), as is explained [below](#property-binding-or-interpolation).
+From a quick glance at the syntax, it looks as if you're inserting the result
+between element tags and assigning it to attributes. That's a convenient way to
+think of what's happening, but it's not exactly true. Interpolation is a special
+syntax that Angular converts into a
+[property binding](#property-binding). See the details
+[below](#property-binding-or-interpolation).
 
 But first, let's take a closer look at template expressions and statements.
 
@@ -216,7 +218,8 @@ Follow these guidelines:
 * [Simplicity](#simplicity)
 * [Idempotence](#idempotence)
 
-The only exceptions to these guidelines are specific circumstances that you thoroughly understand.
+If you make an exception to the above guidelines, make sure you thoroughly
+understand the circumstances.
 
 #### No visible side effects
 
@@ -224,8 +227,8 @@ A template expression must not change any app state other than the value of the
 target property.
 
 This rule is essential to Angular's "unidirectional data flow" policy.
-It ensures that reading a component value doesn't change some other displayed value.
-The view is stable throughout a single rendering pass.
+It ensures that reading a component value doesn't change some other displayed
+value. The view must be stable throughout a single rendering pass.
 
 #### Quick execution
 
@@ -240,7 +243,7 @@ Consider caching values when their computation is expensive.
 
 Although it's possible to write quite complex template expressions, it's best to avoid them.
 
-A property name or method call is the norm.
+In most situations, use a property name or method call.
 An occasional Boolean negation (`!`) is OK.
 Otherwise, confine application and business logic to the component itself,
 where it's easier to develop and test.
@@ -346,9 +349,13 @@ While you can push values to and pull values from HTML,
 the app is easier to write, read, and maintain if you use a binding framework.
 You declare bindings between binding sources and target HTML elements and then let the framework do the work.
 
-Below is a high-level summary of Angular data binding and its syntax. It's followed by more detailed information about most of the data binding types that Angular provides.
+Below is a high-level summary of Angular data binding and its syntax. It's
+followed by more detailed information about most of the data binding types that
+Angular provides.
 
-Binding types can be grouped into three categories based on the direction of data flow: _source-to-view_, _view-to-source_, and two-way sequence _view-to-source-to-view_.
+Binding types can be grouped into three categories based on the direction of
+data flow: _source-to-view_, _view-to-source_, and two-way sequence
+_view-to-source-to-view_.
 
 <table width="100%">
   <col width="30%"> <col width="50%"> <col width="20%">
@@ -422,7 +429,10 @@ You'll get to that peculiar bracket notation in a moment. Looking beyond it,
 your intuition suggests that you're binding to the button's `disabled` attribute and setting
 it to the current value of the component's `isUnchanged` property. Your intuition is incorrect! 
 
-Your everyday HTML mental model is misleading. In fact, once you start data binding, you're no longer working with HTML *attributes*. You aren't setting attributes; you're setting the *properties* of DOM elements, components, and directives.
+Your everyday HTML mental model is misleading. In fact, once you start data
+binding, you're no longer working with HTML *attributes*. You aren't setting
+attributes; you're setting the *properties* of DOM elements, components, and
+directives.
 
 <div class="l-sub-section" markdown="1">
 ### HTML attribute vs. DOM property
@@ -654,7 +664,7 @@ If the name fails to match a property of a known directive or element, Angular r
 
 ### Avoid side effects
 
-As mentioned previously, the evaluation of a template expression has no visible side effects.
+As mentioned previously, the evaluation of a template expression must have no visible side effects.
 The expression language itself does its part to keep you safe.
 You can't assign a value to anything in a property binding expression nor use the increment and decrement operators.
 
@@ -2193,4 +2203,4 @@ It works perfectly with long property paths such as `a?.b?.c?.d`.
 You've completed this survey of template syntax.
 Now it's time to put that knowledge to work on your own components and directives.
 
-[Map]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Map-class.html.html
+[Map]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Map-class.html
